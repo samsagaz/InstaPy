@@ -7,7 +7,7 @@ import json
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
-# import InstaPy modules
+# import FacebookPy modules
 from .time_util import sleep
 from .util import update_activity
 from .util import web_address_navigator

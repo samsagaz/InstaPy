@@ -3,7 +3,7 @@
 # __variables__ with double-quoted values will be available in setup.py
 __version__ = "0.6.8"
 
-from .instapy import InstaPy
+from .facebookpy import FacebookPy
 from .util import smart_run
 from .settings import Settings
 from .file_manager import set_workspace

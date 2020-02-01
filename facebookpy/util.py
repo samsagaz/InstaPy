@@ -931,7 +931,7 @@ def click_element(browser, element, tryNum=0):
     Before committing over this code, you MUST justify your change
     and potentially adding an 'if' statement that applies to your
     specific case. See the following issue for more details
-    https://github.com/timgrossmann/InstaPy/issues/1232
+    https://github.com/timgrossmann/FacebookPy/issues/1232
 
     explaination of the following recursive function:
       we will attempt to click the element given, if an error is thrown
@@ -1270,7 +1270,7 @@ def highlight_print(
 
     elif priority == "workspace":
         # ._. ._. ._. ._. ._. ._. ._. ._. ._. ._. ._. ._.
-        # E.g.: |> Workspace in use: "C:/Users/El/InstaPy"
+        # E.g.: |> Workspace in use: "C:/Users/El/FacebookPy"
         upper_char = " ._. "
         lower_char = None
 
@@ -2218,8 +2218,8 @@ def parse_cli_args():
     """ Parse arguments passed by command line interface """
 
     AP_kwargs = dict(
-        prog="InstaPy",
-        description="Parse InstaPy constructor's arguments",
+        prog="FacebookPy",
+        description="Parse FacebookPy constructor's arguments",
         epilog="And that's how you'd pass arguments by CLI..",
         conflict_handler="resolve",
     )
@@ -2281,7 +2281,7 @@ def parse_cli_args():
     parser.add_argument(
         "-sdb",
         "--split-db",
-        help="Split sqlite-db as instapy_{username}.db",
+        help="Split sqlite-db as facebookpy_{username}.db",
         action="store_true",
         default=None,
     )

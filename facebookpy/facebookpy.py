@@ -16,7 +16,7 @@ try:
 except ModuleNotFoundError:
     pass
 
-# import InstaPy modules
+# import FacebookPy modules
 from . import __version__
 from .clarifai_util import check_image
 from .comment_util import comment_image
@@ -88,10 +88,10 @@ from .xpath import read_xpath
 
 # import exceptions
 from selenium.common.exceptions import NoSuchElementException
-from .exceptions import InstaPyError
+from .exceptions import FacebookPyError
 
 
-class InstaPy:
+class FacebookPy:
     """Class to be instantiated to use the script"""
 
     def __init__(
@@ -116,7 +116,7 @@ class InstaPy:
         bypass_security_challenge_using: str = "email",
         want_check_browser: bool = True,
     ):
-        print("InstaPy Version: {}".format(__version__))
+        print("FacebookPy Version: {}".format(__version__))
         cli_args = parse_cli_args()
         username = cli_args.username or username
         password = cli_args.password or password
@@ -128,10 +128,10 @@ class InstaPy:
         split_db = cli_args.split_db or split_db
         want_check_browser = cli_args.want_check_browser or want_check_browser
 
-        Settings.InstaPy_is_running = True
+        Settings.FacebookPy_is_running = True
         # workspace must be ready before anything
         if not get_workspace():
-            raise InstaPyError("Oh no! I don't have a workspace to work at :'(")
+            raise FacebookPyError("Oh no! I don't have a workspace to work at :'(")
 
         # virtual display to hide browser (not supported on Windows)
         self.nogui = nogui
@@ -140,7 +140,7 @@ class InstaPy:
                 self.display = Display(visible=0, size=(800, 600))
                 self.display.start()
             else:
-                raise InstaPyError("The 'nogui' parameter isn't supported on Windows.")
+                raise FacebookPyError("The 'nogui' parameter isn't supported on Windows.")
 
         self.browser = None
         self.page_delay = page_delay
@@ -156,7 +156,7 @@ class InstaPy:
         self.split_db = split_db
         if self.split_db:
             Settings.database_location = localize_path(
-                "db", "instapy_{}.db".format(self.username)
+                "db", "facebookpy_{}.db".format(self.username)
             )
 
         self.want_check_browser = want_check_browser
@@ -301,7 +301,7 @@ class InstaPy:
         Settings.show_logs = show_logs or None
         self.multi_logs = multi_logs
         self.logfolder = get_logfolder(self.username, self.multi_logs)
-        self.logger = self.get_instapy_logger(self.show_logs, log_handler)
+        self.logger = self.get_facebookpy_logger(self.show_logs, log_handler)
 
         get_database(make=True)  # IMPORTANT: think twice before relocating
 
@@ -319,9 +319,9 @@ class InstaPy:
                 self.logger,
             )
             if len(err_msg) > 0:
-                raise InstaPyError(err_msg)
+                raise FacebookPyError(err_msg)
 
-    def get_instapy_logger(self, show_logs: bool, log_handler=None):
+    def get_facebookpy_logger(self, show_logs: bool, log_handler=None):
         """
         Handles the creation and retrieval of loggers to avoid
         re-instantiation.
@@ -331,7 +331,7 @@ class InstaPy:
         if existing_logger is not None:
             return existing_logger
         else:
-            # initialize and setup logging system for the InstaPy object
+            # initialize and setup logging system for the FacebookPy object
             logger = logging.getLogger(self.username)
             logger.setLevel(logging.DEBUG)
             file_handler = logging.FileHandler("{}general.log".format(self.logfolder))
@@ -391,7 +391,7 @@ class InstaPy:
 
     def login(self):
         """Used to login the user either with the username and password"""
-        # InstaPy uses page_delay speed to implicit wait for elements,
+        # FacebookPy uses page_delay speed to implicit wait for elements,
         # here we're decreasing it to 5 seconds instead of the default 25 seconds
         # to speed up the login process.
         #
@@ -647,13 +647,13 @@ class InstaPy:
         Which 'project' will be used (only 5000 calls per month)
 
         Raises:
-            InstaPyError if os is windows
+            FacebookPy if os is windows
         """
         if self.aborting:
             return self
 
         # if os.name == 'nt':
-        #    raise InstaPyError('Clarifai is not supported on Windows')
+        #    raise FacebookPyError('Clarifai is not supported on Windows')
 
         self.use_clarifai = enabled
 
@@ -3788,8 +3788,8 @@ class InstaPy:
         custom_list_enabled: bool = False,
         custom_list: list = [],
         custom_list_param: str = "all",
-        instapy_followed_enabled: bool = False,
-        instapy_followed_param: str = "all",
+        facebookpy_followed_enabled: bool = False,
+        facebookpy_followed_param: str = "all",
         nonFollowers: bool = False,
         allFollowing: bool = False,
         style: str = "FIFO",
@@ -3827,7 +3827,7 @@ class InstaPy:
                 self.username,
                 amount,
                 (custom_list_enabled, custom_list, custom_list_param),
-                (instapy_followed_enabled, instapy_followed_param),
+                (facebookpy_followed_enabled, facebookpy_followed_param),
                 nonFollowers,
                 allFollowing,
                 style,
@@ -4470,7 +4470,7 @@ class InstaPy:
     def end(self, threaded_session: bool = False):
         """Closes the current session"""
 
-        Settings.InstaPy_is_running = False
+        Settings.FacebookPy_is_running = False
         close_browser(self.browser, threaded_session, self.logger)
 
         with interruption_handler(threaded=threaded_session):

@@ -1,6 +1,6 @@
 """
-A fully functional TelegramBot to get info on an instapy run
-or to control the instapy bot
+A fully functional TelegramBot to get info on an facebookpy run
+or to control the facebookpy bot
 
 you will need to create your token on the telegram app and speak with @botfather
 you will need to have a username (go to settings -> profile -> Username
@@ -24,16 +24,16 @@ import requests
 import os
 
 
-class InstaPyTelegramBot:
+class FacebookPyTelegramBot:
     """
-    Class to handle the instapy telegram bot
+    Class to handle the facebookpy telegram bot
     """
 
     def __init__(
         self,
         token="",
         telegram_username="",
-        instapy_session=None,
+        facebookpy_session=None,
         debug=True,
         proxy=None,
     ):
@@ -47,7 +47,7 @@ class InstaPyTelegramBot:
         # public properties
         self.token = token
         self.telegram_username = telegram_username
-        self.instapy_session = instapy_session
+        self.facebookpy_session = facebookpy_session
         self.debug = debug
         self.proxy = proxy
         # should be of type:
@@ -58,10 +58,10 @@ class InstaPyTelegramBot:
         #     'password': 'PROXY_PASS',
 
         # see if we have a pre-existing chat_id from another run
-        if self.instapy_session is not None:
+        if self.facebookpy_session is not None:
             try:
                 telegramfile = open(
-                    "{}telegram_chat_id.txt".format(self.instapy_session.logfolder)
+                    "{}telegram_chat_id.txt".format(self.facebookpy_session.logfolder)
                 )
             except OSError:
                 self.__chat_id = None
@@ -73,7 +73,7 @@ class InstaPyTelegramBot:
         if (
             (self.token != "")
             and (self.telegram_username != "")
-            and (self.instapy_session is not None)
+            and (self.facebookpy_session is not None)
         ):
             self.telegram_bot()
 
@@ -101,22 +101,22 @@ class InstaPyTelegramBot:
 
     def telegram_bot(self):
         """
-        Funtion to initialize a telegram bot that you can talk to and control your InstaPy Bot
+        Funtion to initialize a telegram bot that you can talk to and control your FacebookPy Bot
         :return:
         """
         if self.token == "":
             self.__logger.warning(
-                "You need to set token for InstaPyTelegramBot to work"
+                "You need to set token for FacebookPyTelegramBot to work"
             )
             return
         if self.telegram_username == "":
             self.__logger.warning(
-                "You need to set telegram_username for InstaPyTelegramBot to work"
+                "You need to set telegram_username for FacebookPyTelegramBot to work"
             )
             return
-        if self.instapy_session is None:
+        if self.facebookpy_session is None:
             self.__logger.warning(
-                "You need to set instapy_session for InstaPyTelegramBot to work"
+                "You need to set facebookpy_session for FacebookPyTelegramBot to work"
             )
             return
 
@@ -148,14 +148,14 @@ class InstaPyTelegramBot:
         dispatcher.add_handler(unknown_handler)
         updater.start_polling()
         if self.__chat_id is not None:
-            # session was restored, send a message saying that instapy session is starting
+            # session was restored, send a message saying that facebookpy session is starting
             self.__context.bot.send_message(
-                self.__chat_id, text="Telegram session restored, InstaPy starting\n"
+                self.__chat_id, text="Telegram session restored, FacebookPy starting\n"
             )
 
     def send_message(self, text=""):
         """
-        function to be able to send messages from anywhere else in the instapy code
+        function to be able to send messages from anywhere else in the facebookpy code
         :param text: the text of the message you want to send
         remember we cannot send_messages if we don't have the chat_id
         to get the chat_id, user has to send at little one /start to the bot
@@ -170,7 +170,7 @@ class InstaPyTelegramBot:
     def telegram_delete_session(session):
         """
         function to force delete the telegram_chat_id.txt file that is in the logs folder
-        :param session: the instapy session
+        :param session: the facebookpy session
         :return:
         """
         os.remove("{}telegram_chat_id.txt".format(session.logfolder))
@@ -185,7 +185,7 @@ class InstaPyTelegramBot:
         self.__chat_id = update.message.chat_id
         if self._check_authorized(update, context):
             with open(
-                "{}telegram_chat_id.txt".format(self.instapy_session.logfolder), "w"
+                "{}telegram_chat_id.txt".format(self.facebookpy_session.logfolder), "w"
             ) as telegramfile:
                 telegramfile.write(str(self.__chat_id))
 
@@ -215,9 +215,9 @@ class InstaPyTelegramBot:
         """
         self.__chat_id = update.message.chat_id
         if self._check_authorized(update, context):
-            self.instapy_session.aborting = True
+            self.facebookpy_session.aborting = True
             context.bot.send_message(
-                chat_id=update.message.chat_id, text="InstaPy session abort set\n"
+                chat_id=update.message.chat_id, text="FacebookPy session abort set\n"
             )
 
     def _unknown(self, update, context):
@@ -293,23 +293,23 @@ class InstaPyTelegramBot:
 
     def _live_report(self):
         """
-        adapted version of instapy live report function for showing up on a telegram message
+        adapted version of facebookpy live report function for showing up on a telegram message
         :return:
         """
         stats = [
-            self.instapy_session.liked_img,
-            self.instapy_session.already_liked,
-            self.instapy_session.commented,
-            self.instapy_session.followed,
-            self.instapy_session.already_followed,
-            self.instapy_session.unfollowed,
-            self.instapy_session.stories_watched,
-            self.instapy_session.reels_watched,
-            self.instapy_session.inap_img,
-            self.instapy_session.not_valid_users,
+            self.facebookpy_session.liked_img,
+            self.facebookpy_session.already_liked,
+            self.facebookpy_session.commented,
+            self.facebookpy_session.followed,
+            self.facebookpy_session.already_followed,
+            self.facebookpy_session.unfollowed,
+            self.facebookpy_session.stories_watched,
+            self.facebookpy_session.reels_watched,
+            self.facebookpy_session.inap_img,
+            self.facebookpy_session.not_valid_users,
         ]
 
-        sessional_run_time = self.instapy_session.run_time()
+        sessional_run_time = self.facebookpy_session.run_time()
         run_time_info = (
             "{} seconds".format(sessional_run_time)
             if sessional_run_time < 60
@@ -335,18 +335,18 @@ class InstaPyTelegramBot:
                 "|> WATCHED {} story(ies)\n"
                 "|> WATCHED {} reel(s)\n"
                 "\n{}".format(
-                    self.instapy_session.liked_img,
-                    self.instapy_session.already_liked,
-                    self.instapy_session.commented,
-                    self.instapy_session.followed,
-                    self.instapy_session.already_followed,
-                    self.instapy_session.unfollowed,
-                    self.instapy_session.liked_comments,
-                    self.instapy_session.replied_to_comments,
-                    self.instapy_session.inap_img,
-                    self.instapy_session.not_valid_users,
-                    self.instapy_session.stories_watched,
-                    self.instapy_session.reels_watched,
+                    self.facebookpy_session.liked_img,
+                    self.facebookpy_session.already_liked,
+                    self.facebookpy_session.commented,
+                    self.facebookpy_session.followed,
+                    self.facebookpy_session.already_followed,
+                    self.facebookpy_session.unfollowed,
+                    self.facebookpy_session.liked_comments,
+                    self.facebookpy_session.replied_to_comments,
+                    self.facebookpy_session.inap_img,
+                    self.facebookpy_session.not_valid_users,
+                    self.facebookpy_session.stories_watched,
+                    self.facebookpy_session.reels_watched,
                     run_time_msg,
                 )
             )
@@ -363,7 +363,7 @@ class InstaPyTelegramBot:
         :return:
         """
         # keep the chat_id session for future reference
-        # so we don't need to send a message each time InstaPy restart to the bot
+        # so we don't need to send a message each time FacebookPy restart to the bot
         # and we can keep on getting messages when the sessions finishes
 
         # send one last message to the user reporting the session
@@ -374,6 +374,6 @@ class InstaPyTelegramBot:
         self.__updater.stop()
         self.token = ""
         self.telegram_username = ""
-        self.instapy_session = None
+        self.facebookpy_session = None
         self.__chat_id = None
         self.__context = None

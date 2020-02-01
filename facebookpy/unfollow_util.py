@@ -55,7 +55,7 @@ def set_automated_followed_pool(
     delay_followbackers,
     pool="followedPool",
 ):
-    """ Generare a user list based on the InstaPy followed usernames """
+    """ Generare a user list based on the FacebookPy followed usernames """
     pool_name = "{0}{1}_{2}.csv".format(logfolder, username, pool)
     automatedFollowedPool = {"all": {}, "eligible": {}}
     time_stamp = None
@@ -306,7 +306,7 @@ def unfollow(
             unfollow_list = customList_data
 
         elif InstapyFollowed is True:
-            logger.info("Unfollowing the users followed by InstaPy\n")
+            logger.info("Unfollowing the users followed by FacebookPy\n")
             unfollow_list = list(automatedFollowedPool["eligible"].keys())
 
         elif nonFollowers is True:

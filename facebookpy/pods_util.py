@@ -53,7 +53,7 @@ def group_posts(posts, logger):
                 normal_post_ids.append(postobj)
         except Exception as err:
             logger.error(
-                "Failed with Error {}, please upgrade your instapy".format(err)
+                "Failed with Error {}, please upgrade your facebookpy".format(err)
             )
             normal_post_ids.append(postobj)
     return no_comments_post_ids, light_post_ids, normal_post_ids, heavy_post_ids

@@ -10,7 +10,7 @@ from .util import highlight_print
 from .settings import Settings
 from .settings import localize_path
 from .settings import WORKSPACE
-from .exceptions import InstaPyError
+from .exceptions import FacebookPyError
 
 
 def use_workspace():
@@ -49,7 +49,7 @@ def get_workspace():
 def set_workspace(path=None):
     """ Set a custom workspace for use """
 
-    if not Settings.InstaPy_is_running:
+    if not Settings.FacebookPy_is_running:
         if path:
             path = verify_workspace_name(path)
             workspace_is_new = differ_paths(WORKSPACE["path"], path)
@@ -84,7 +84,7 @@ def set_workspace(path=None):
     else:
         message = (
             "Sorry! You can't change workspace after"
-            " InstaPy has started :>\t~using existing.."
+            " FacebookPy has started :>\t~using existing.."
         )
         highlight_print(
             Settings.profile["name"], message, "workspace", "info", Settings.logger
@@ -117,7 +117,7 @@ def update_locations():
 
     # update database location
     if not Settings.database_location:
-        Settings.database_location = localize_path("db", "instapy.db")
+        Settings.database_location = localize_path("db", "facebookpy.db")
 
 
 def get_home_path():
@@ -162,7 +162,7 @@ def remove_last_slash(path):
 
 
 def verify_workspace_name(path):
-    """ Make sure chosen workspace name is InstaPy friendly """
+    """ Make sure chosen workspace name is FacebookPy friendly """
 
     path = slashen(path)
     path = remove_last_slash(path)
@@ -207,7 +207,7 @@ def validate_path(path):
             msg = '{} occured while making "{}" path!' "\n\t{}".format(
                 exc_name, path, str(exc).encode("utf-8")
             )
-            raise InstaPyError(msg)
+            raise FacebookPyError(msg)
 
 
 def get_logfolder(username, multi_logs):

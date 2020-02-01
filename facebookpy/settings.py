@@ -11,7 +11,7 @@ from os.path import join as join_path
 
 
 WORKSPACE = {
-    "name": "InstaPy",
+    "name": "FacebookPy",
     "path": environmental_variables.get("INSTAPY_WORKSPACE"),
 }
 OS_ENV = (
@@ -35,9 +35,9 @@ class Settings:
 
     # locations
     log_location = localize_path("logs")
-    database_location = localize_path("db", "instapy.db")
+    database_location = localize_path("db", "facebookpy.db")
 
-    # set a logger cache outside the InstaPy object to avoid
+    # set a logger cache outside the FacebookPy object to avoid
     # re-instantiation issues
     loggers = {}
     logger = None
@@ -63,25 +63,25 @@ class Settings:
         "(KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36"
     )
 
-    # state of instantiation of InstaPy
-    InstaPy_is_running = False
+    # state of instantiation of FacebookPy
+    FacebookPy_is_running = False
 
     # This is where currently the pods server is hosted
-    pods_server_endpoint = "https://us-central1-instapy-pods.cloudfunctions.net"
+    pods_server_endpoint = "https://us-central1-facebookpy-pods.cloudfunctions.net"
     pods_fashion_server_endpoint = (
-        "https://us-central1-instapy-pods-fashion.cloudfunctions.net"
+        "https://us-central1-facebookpy-pods-fashion.cloudfunctions.net"
     )
     pods_food_server_endpoint = (
-        "https://us-central1-instapy-pods-food.cloudfunctions.net"
+        "https://us-central1-facebookpy-pods-food.cloudfunctions.net"
     )
     pods_travel_server_endpoint = (
-        "https://us-central1-instapy-pods-travel.cloudfunctions.net"
+        "https://us-central1-facebookpy-pods-travel.cloudfunctions.net"
     )
     pods_sports_server_endpoint = (
-        "https://us-central1-instapy-pods-sports.cloudfunctions.net"
+        "https://us-central1-facebookpy-pods-sports.cloudfunctions.net"
     )
     pods_entertainment_server_endpoint = (
-        "https://us-central1-instapy-pods-entertainment.cloudfunctions.net"
+        "https://us-central1-facebookpy-pods-entertainment.cloudfunctions.net"
     )
 
 
